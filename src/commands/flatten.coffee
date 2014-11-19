@@ -1,6 +1,5 @@
-readline = require 'readline'
 program = require 'commander'
-utils = require '../index'
+{flatten} = require '../index'
 
 program
     .option '-c, --connector [_]', 
@@ -11,11 +10,18 @@ program
         'Types that should not be flattened.'
     .parse process.argv
 
-interface = readline.createInterface {
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
-    }
+chunks = ''
 
-interface.on 'line', (line) ->
-    utils.flatten line, program
+process.stdin.on 'readable', ->
+    chunk = process.stdin.read()
+    # a chunk can be null (e.g. when stdin terminates)
+    return unless chunk
+    
+    chunks += chunk
+
+    try
+        obj = JSON.parse chunks
+        flattenedObj = flatten obj, program
+        serializedObj = JSON.stringify flattenedObj
+        console.log serializedObj
+        chunks = ''

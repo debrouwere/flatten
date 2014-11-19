@@ -1,0 +1,37 @@
+{
+  "name": "flatten-cli",
+  "author": {
+    "name": "Stijn Debrouwere",
+    "email": "stijn@debrouwere.org",
+    "url": "http://debrouwere.org"
+  },
+  "description": "A simple command-line utility that flattens and unflattens JSON.",
+  "version": "0.2.0",
+  "main": "./lib/index.js",
+  "dependencies": {
+    "commander": "^2.5.0",
+    "underscore": "^1.7.0"
+  },
+  "devDependencies": {
+    "coffee-script": "1.8.x",
+    "mocha": "^1.21.4",
+    "should": "^4.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/debrouwere/flatten.git"
+  },
+  "licenses": [
+    {
+      "type": "ISC",
+      "url": "http://github.com/debrouwere/flatten/raw/master/LICENSE"
+    }
+  ],
+  "scripts": {
+    "test": "make test"
+  },
+  "bin": {
+    "flatten": "bin/flatten",
+    "unflatten": "bin/unflatten"
+  }
+}

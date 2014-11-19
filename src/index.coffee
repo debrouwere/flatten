@@ -1,6 +1,5 @@
 _ = require 'underscore'
 
-
 exports.flatten = flatten = (obj, options, parentKey='') ->
     options = _.defaults options, 
         skip: []
@@ -32,13 +31,13 @@ exports.unflatten = unflatten = (flatObj, options) ->
     obj = {}
 
     for k, v of flatObj
-        if (k.indexOf connector) is -1
+        if (k.indexOf options.connector) is -1
             obj[k] = v
         else
-            [baseKey, subKey...] = k.split connector
-            subKey = subKey.join connector
+            [baseKey, subKey...] = k.split options.connector
+            subKey = subKey.join options.connector
             subObj = _.object [[subKey, v]]
             obj[baseKey] ?= {}
-            _.extend obj[baseKey], (unflatten subObj, connector)
+            _.extend obj[baseKey], (unflatten subObj, options)
 
     obj

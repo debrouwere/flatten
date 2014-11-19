@@ -1,15 +1,24 @@
 program = require 'commander'
+{unflatten} = require '../index'
 
 program
     .option '-c, --connector [_]', 
         'The character on which to split keys.'
     .parse process.argv
 
-interface = readline.createInterface {
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
-    }
+chunks = ''
 
-interface.on 'line', (line) ->
-    utils.unflatten line, program
+process.stdin.on 'readable', ->
+    chunk = process.stdin.read()
+    # a chunk can be null (e.g. when stdin terminates)
+    return unless chunk
+    
+    chunks += chunk
+
+    try
+        flatObj = JSON.parse chunks
+        obj = unflatten flatObj, program
+        serializedObj = JSON.stringify obj
+        console.log serializedObj
+        chunks = ''
+    
